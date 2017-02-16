@@ -21,7 +21,13 @@ app.use(function(req, res, next) {
 
 client.createUser({
   email: config.storjEmail,
-  
+  password: config.storjPassword
+}, function(err) {
+  if(err) {
+    return console.log('error: ', err.message);
+  }
+
+  console.log('user created');
 })
 
 // var storjOptions = {
