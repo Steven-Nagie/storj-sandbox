@@ -19,15 +19,27 @@ app.use(function(req, res, next) {
     next();
 });
 
-client.createUser({
-  email: config.storjEmail,
-  password: config.storjPassword
-}, function(err) {
-  if(err) {
-    return console.log('error: ', err.message);
-  }
+function createUser() {
+  return client.createUser({
+    email: config.storjEmail,
+    password: config.storjPassword
+  }, function(err) {
+    if(err) {
+      console.log(err.message);
+      return err;
+    }
 
-  console.log('user created');
+    return "User created";
+  })
+}
+
+app.post('/createUser', function(req, res, next) {
+  console.log(req.body);
+  var response = createUser();
+  if (response.message) {
+    res.status(500).json(response.message);
+  }
+  res.status(200).json(response);
 })
 
 // var storjOptions = {

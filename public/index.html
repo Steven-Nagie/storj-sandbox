@@ -1,10 +1,21 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="app">
   <head>
     <meta charset="utf-8">
     <title>Storj Sandbox</title>
   </head>
-  <body>
-    <p>Seems to be working</p>
+  <body ng-controller="mainCtrl">
+    <form class="" action="index.html" method="post">
+      <h3>Email:</h3>
+      <input type="text" name="" value="">
+      <h3>Password:</h3>
+      <input type="text" name="" value="">
+      <button type="submit" name="button" ng-click="createUser(userEmail, userPassword)">Create User</button>
+    </form>
   </body>
+  <script src="https://code.jquery.com/jquery-3.1.1.js" integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA=" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+  <script type="text/javascript" src="./app.js"></script>
+  <script type="text/javascript" src="./mainCtrl.js"></script>
+  <script type="text/javascript" src="./mainService.js"></script>
 </html>
