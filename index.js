@@ -19,9 +19,27 @@ app.use(function(req, res, next) {
     next();
 });
 
-client.createUser({
-  email: config.storjEmail,
-  
+function createUser(email, password) {
+  return client.createUser({
+    email: email,
+    password: password
+  }, function(err) {
+    if(err) {
+      console.log(err.message);
+      return err;
+    }
+
+    return "User created";
+  })
+}
+
+app.post('/createUser', function(req, res, next) {
+  console.log(req.body);
+  var response = createUser(req.body.email, req.body.password);
+  if (response.message) {
+    res.status(500).json(response.message);
+  }
+  res.status(200).json(response);
 })
 
 // var storjOptions = {
