@@ -5,12 +5,12 @@
     <title>Storj Sandbox</title>
   </head>
   <body ng-controller="mainCtrl">
-    <form class="" action="index.html" method="post">
+    <form class="" action="" method="">
       <h3>Email:</h3>
-      <input type="text" name="" value="">
+      <input type="text" name="" value="" ng-model="userEmail">
       <h3>Password:</h3>
-      <input type="text" name="" value="">
-      <button type="submit" name="button" ng-click="createUser(userEmail, userPassword)">Create User</button>
+      <input type="text" name="" value="" ng-model="userPassword">
+      <button type="button" name="button" ng-click="createUser(userEmail, userPassword)">Create User</button>
     </form>
   </body>
   <script src="https://code.jquery.com/jquery-3.1.1.js" integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA=" crossorigin="anonymous"></script>
