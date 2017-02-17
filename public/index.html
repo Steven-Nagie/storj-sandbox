@@ -4,7 +4,9 @@
     <meta charset="utf-8">
     <title>Storj Sandbox</title>
   </head>
+
   <body ng-controller="mainCtrl">
+
     <form class="" action="" method="">
       <h3>Email:</h3>
       <input type="text" name="" value="" ng-model="userEmail">
@@ -12,7 +14,10 @@
       <input type="text" name="" value="" ng-model="userPassword">
       <button type="button" name="button" ng-click="createUser(userEmail, userPassword)">Create User</button>
     </form>
+    <button type="button" name="button" ng-click="generateKeys(userEmail, userPassword)">Generate Keypair</button>
+
   </body>
+
   <script src="https://code.jquery.com/jquery-3.1.1.js" integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA=" crossorigin="anonymous"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
   <script type="text/javascript" src="./app.js"></script>
