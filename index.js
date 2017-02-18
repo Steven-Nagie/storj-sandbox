@@ -8,9 +8,10 @@ const express = require('express'),
       storj = require('storj-lib'),
       api = 'https://api.storj.io',
       config = require('./config.json'),
-      port = process.env.PORT || 3000;
+      port = process.env.PORT || 3000,
+      bucketsCtrl = require('./bucketsCtrl.js');
 
-let client = storj.BridgeClient(api);
+let client;
 
 app.use(bodyParser.json());
 app.use(express.static('./public'));
@@ -22,6 +23,7 @@ app.use(function(req, res, next) {
 });
 
 function createUser(email, password) {
+  client = storj.BridgeClient(api);
   return client.createUser({
     email: email,
     password: password
@@ -56,16 +58,15 @@ app.post('/generateKeys', function(req, res, next) {
     }
 
     fs.writeFileSync('./private.key', keypair.getPrivateKey());
+    res.sendStatus(200);
   })
 })
 
-// var storjOptions = {
-//   bridge: `http://localhost:${port}`,
-//   basicAuth: {
-//     email: config.storjEmail,
-//     password: config.storjPassword
-//   }
-// }
+app.get('/listBuckets', bucketsCtrl.listBuckets);
+
+app.post('/createBucket', bucketsCtrl.createBucket);
+
+app.post('/destroyBucket', bucketsCtrl.destroyBucket);
 
 app.listen(port, function() {
   console.log(`listening on port ${this.address().port}`)
