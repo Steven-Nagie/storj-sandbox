@@ -1,6 +1,7 @@
 angular.module('app').controller('mainCtrl', function($scope, mainService) {
 
   $scope.buckets = [];
+  $scope.files = [];
 
   $scope.createUser = function(email, password) {
     mainService.createUser(email, password).then(function(response) {
@@ -18,8 +19,8 @@ angular.module('app').controller('mainCtrl', function($scope, mainService) {
     mainService.listBuckets().then(function(response) {
       console.log(response.data);
       if(Array.isArray(response.data)) {
+        $scope.buckets = [];
         response.data.forEach(function(bucket) {
-          $scope.buckets = [];
           $scope.buckets.push(bucket);
         })
       } else {
@@ -36,9 +37,21 @@ angular.module('app').controller('mainCtrl', function($scope, mainService) {
   }
 
   $scope.destroyBucket = function(bucket) {
-    console.log(bucket);
     mainService.destroyBucket(bucket).then(function(response) {
       console.log(response.data);
+    })
+  }
+
+  $scope.listFiles = function(bucket) {
+    mainService.listFiles(bucket).then(function(response) {
+      if(Array.isArray(response.data)) {
+        $scope.files = [];
+        response.data.forEach(function(file) {
+          $scope.files.push(file);
+        })
+      } else {
+        $scope.files = [{filename: response.data}];
+      }
     })
   }
 

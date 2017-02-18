@@ -29,6 +29,16 @@ angular.module('app').service('mainService', function($http) {
     })
   }
 
+  this.listFiles = function(bucket) {
+    return $http({
+      method: 'POST',
+      url: '/listFiles',
+      data: {
+        name: bucket
+      }
+    })
+  }
+
   this.createBucket = function(bucket) {
     return $http({
       method: 'POST',

@@ -9,7 +9,9 @@ const express = require('express'),
       api = 'https://api.storj.io',
       config = require('./config.json'),
       port = process.env.PORT || 3000,
-      bucketsCtrl = require('./bucketsCtrl.js');
+      userCtrl = require('./userCtrl.js'),
+      bucketsCtrl = require('./bucketsCtrl.js'),
+      fileCtrl = require('./fileCtrl.js');
 
 let client;
 
@@ -22,51 +24,24 @@ app.use(function(req, res, next) {
     next();
 });
 
-function createUser(email, password) {
-  client = storj.BridgeClient(api);
-  return client.createUser({
-    email: email,
-    password: password
-  }, function(err) {
-    if(err) {
-      console.log(err.message);
-      return err;
-    }
+/******** USERS ********/
+app.post('/createUser', userCtrl.createUser);
 
-    return "User created";
-  })
-}
+app.post('/generateKeys', userCtrl.generateKeys);
 
-app.post('/createUser', function(req, res, next) {
-  var response = createUser(req.body.email, req.body.password);
-  if (response.message) {
-    res.status(500).json(response.message);
-  }
-  res.status(200).json(response);
-})
-
-app.post('/generateKeys', function(req, res, next) {
-  var user = {email: req.body.email, password: req.body.password};
-  console.log(user);
-  client = storj.BridgeClient(api, {basicAuth: user});
-
-  var keypair = storj.KeyPair();
-
-  client.addPublicKey(keypair.getPublicKey(), function(err) {
-    if (err) {
-      res.status(500).json(err.message);
-    }
-
-    fs.writeFileSync('./private.key', keypair.getPrivateKey());
-    res.sendStatus(200);
-  })
-})
-
+/******** BUCKETS ******/
 app.get('/listBuckets', bucketsCtrl.listBuckets);
 
 app.post('/createBucket', bucketsCtrl.createBucket);
 
 app.post('/destroyBucket', bucketsCtrl.destroyBucket);
+
+app.post('/listFiles', bucketsCtrl.listFiles);
+
+/******** UPLOAD/DOWNLOAD **********/
+app.post('/uploadFile', fileCtrl.upload);
+
+
 
 app.listen(port, function() {
   console.log(`listening on port ${this.address().port}`)

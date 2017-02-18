@@ -63,8 +63,48 @@ module.exports = {
           })
         }
       })
+
+      // return res.status(200).json('Could not find a bucket with that name');
     })
 
+  },
+
+  listFiles: function(req, res, next) {
+    console.log(req.body.name);
+    let bucketId = "";
+    var keypair = storj.KeyPair(fs.readFileSync('./private.key').toString());
+    let client = storj.BridgeClient(api, {keyPair: keypair});
+
+    client.getBuckets(function(err, buckets) {
+      if (err) {
+        return res.status(500).json(err.message);
+      }
+
+      if (!buckets.length) {
+        return res.status(200).json("You have no buckets");
+      }
+
+
+      buckets.forEach((bucket) => {
+        if (bucket.name = req.body.name) {
+          bucketId = bucket.id;
+          client.listFilesInBucket(bucketId, function(err, files) {
+            if (err) {
+              return res.status(500).json(err.message);
+            }
+
+            if (!files.length) {
+              return res.status(200).json("There are no files in this bucket");
+            }
+
+            return res.status(200).json(files);
+          })
+        }
+      })
+
+      // res.status(200).json("There is no bucket with that name");
+
+    })
   }
 
 }
