@@ -4,15 +4,47 @@
     <meta charset="utf-8">
     <title>Storj Sandbox</title>
   </head>
+
   <body ng-controller="mainCtrl">
+
     <form class="" action="" method="">
+      <h1>Create new user or generate a keypair</h1>
       <h3>Email:</h3>
       <input type="text" name="" value="" ng-model="userEmail">
       <h3>Password:</h3>
       <input type="text" name="" value="" ng-model="userPassword">
       <button type="button" name="button" ng-click="createUser(userEmail, userPassword)">Create User</button>
+      <button type="button" name="button" ng-click="generateKeys(userEmail, userPassword)">Generate Keypair</button>
+      <button type="button" name="button" ng-click="listBuckets()">List Buckets</button>
     </form>
+
+    <div class="buckets-list" ng-repeat="bucket in buckets">
+      <h4>{{ bucket.name }}</h4>
+      <p>Owner: {{ bucket.user }}</p>
+      <p>Created: {{ bucket.created }}</p>
+      <p>Id: {{ bucket.id }}</p>
+
+    </div>
+
+    <form class="" action="" method="">
+      <h1>Create or remove a bucket</h1>
+      <h3>Bucket Name:</h3>
+      <input type="text" name="" value="" ng-model="bucketName">
+      <button type="button" name="button" ng-click="createBucket(bucketName)">Create Bucket</button>
+      <button type="button" name="button" ng-click="destroyBucket(bucketName)">Destroy Bucket</button>
+      <button type="button" name="button" ng-click="listFiles(bucketName)">List Bucket Files</button>
+    </form>
+
+    <div class="buckets-list" ng-repeat="file in files">
+      <h4>{{ file.filename }}</h4>
+      <p>Size: {{ file.size }}</p>
+      <p>Id: {{ file.id }}</p>
+
+    </div>
+
+
   </body>
+
   <script src="https://code.jquery.com/jquery-3.1.1.js" integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA=" crossorigin="anonymous"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
   <script type="text/javascript" src="./app.js"></script>
